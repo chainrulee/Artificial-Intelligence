@@ -1,0 +1,13 @@
+#
+#
+net: "hw2-train.prototxt"
+test_interval: 77
+test_iter: 4
+display: 10
+max_iter: 3840
+snapshot: 462
+snapshot_prefix: ""
+lr_policy: "fixed"
+base_lr: 0.0001
+momentum: 0.9
+solver_mode: CPU
