@@ -1,0 +1,60 @@
+# DATASET: 	1280 samples, 4 classes, ( 320 samples/class)
+# TRAIN DATA: 	1152 samples, 4 classes, (~288 samples/class)
+# TEST DATA:  	 128 samples, 4 classes, (~ 32 samples/class)
+
+# In caffe, there is no concept of "epochs".  Rather, they use the concept of "iterations".  
+# An "iteration" is how many forward/backward passes you perform before you update your weights.
+# In the simplest case, you would have a batch size of 1.  You would input a single image, 
+#	compute the loss, backpropagate and update the weights.
+# In a slightly better approach, you would use a larger batch size (e.g. 30).  You input 30 
+#	images into the network, calculate the average loss, backpropagate based on the average 
+#	loss, and update the weights accordingly.  Using larger batch sizes gives the network a 
+#	"more generalizable" loss and can update the weights accordingly.
+
+# Parameter configured in hw2-train.prototxt (but stated here for convenience)
+# TRAIN BATCHSIZE: 30
+# 	With a train batchsize of 30, we see one "training epoch" every ~38.4 iterations.
+# TEST BATCHSIZE: 30
+# 	With a test batchsize of 30, we see one "test epoch" every ~4 iterations.
+
+# specify path to your network
+net: "hw3-train.prototxt"
+
+# test_interval: how many iterations do you run before testing?
+# with a train batchsize of 30, after 77 iterations, we will have gone through ~2 training epochs.
+test_interval: 77
+
+# test_iter: how many forwards passes do we run (once we've reached our test interval)?
+# with our test batchsize of 30, if we test 4 iterations, it means we test 120 samples (i.e. 
+#	almost our entire test set)
+test_iter: 4
+
+# display: how often do we display results to the screen
+# with our train batchsize of 30, if we display every 10 iterations, it means that we display 
+#	results after the network has seen 300 samples (~1/4 of training data)
+display: 10
+
+# max_iter: how many iterations do we run before stopping?
+# with a train batchsize of 30, if our max_iter is 3840, it means we run for 100 epochs
+max_iter: 3840
+
+# snapshot: how often do you save off your weights?
+# caffe can save off a snapshot of your weights as often as you specify.  (It also always 
+#	saves once you've hit the max_iter.)
+# with a snapshot value of 231, it means that it saves every 6 epochs
+# it saves the weights into a file called <snapshot_prefix>_iter_#####.caffemodel  (this is 
+#	one of the files you submit as part of the homework)
+snapshot: 2310
+snapshot_prefix: ""
+
+# learning rate parameters
+# there are lots of options to choose from.  The values below are some safe values to use.
+lr_policy: "fixed"
+base_lr: 0.0005
+momentum: 0.9
+
+# GPU vs. CPU
+# the machines on ecegrid only have CPU's, so you need to specify CPU.
+# Most machine learning researchers have GPU's and train NN's on them since GPU's are so 
+#	much faster.
+solver_mode: CPU
